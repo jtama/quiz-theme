@@ -1,0 +1,161 @@
+= ROQ Quiz theme
+
+image:https://img.shields.io/maven-central/v/io.github.jtama/quiz-theme.svg?label=Maven%20Central[Maven Central, link=https://search.maven.org/artifact/io.github.jtama/quiz-theme, window=_blank)] image:https://img.shields.io/badge/License-CC_BY--NC--SA_4.0-blue[License, link=https://creativecommons.org/licenses/by-nc/4.0/legalcode.en, window=_blank)] image:https://github.com/jtama/quiz-theme/workflows/EarlyAccess/badge.svg[Build, link=https://github.com/jtama/quiz-theme/actions?query=workflow%3AEarlyAccess, window=_blank]
+
+This theme allow to generate quiz site based only on YAML data files.
+
+== Get up and running
+
+=== The pom
+
+. 👉 *Install* the https://quarkus.io/guides/cli-tooling[Quarkus CLI,window=_blank].
+. 🚀 **Generate the starter app** using the CLI (you can change the name), or via https://code.quarkus.io/?a=roq-with-blog&e=io.quarkiverse.roq%3Aquarkus-roq[code.quarkus.io,window=_blank]
++
+[source,shell]
+----
+quarkus create app quiz-with-roq -x=io.quarkiverse.roq:quarkus-roq,io.github.jtama.quiz:quiz-theme
+----
+
+. 🎮 *start dev-mode*:
++
+[source,shell]
+----
+cd quiz-with-roq
+quarkus dev
+----
+
+. 💻 Your site is available on *link:http://localhost:8080[localhost,window=_blank]* for dev
+. 🍾 Time to play!
+
+
+
+=== The layout
+
+Here is the only needed work from you to use the theme.
+
+Create a `content` folder with the following files (the file names don't matter).
+
+.`404.html`, because yes it's always a good idea.
+[%collapsible]
+====
+[source,html]
+----
+---
+layout: :theme/default
+---
+
+Non non non petit malin
+----
+====
+
+.`index.html`
+[%collapsible]
+====
+[source,html]
+----
+---
+title: Roq quizzes really stand out !
+layout: :theme/startQuiz
+---
+----
+====
+
+.`leaderboard.html`
+[%collapsible]
+====
+[source,html]
+----
+---
+layout: :theme/leaderboard
+---
+----
+====
+
+=== The questions
+
+In the `content>modules` folder, each html file will be a quiz module. It's called html for now, but all the data lies in the **frontmatter** headers.
+
+You can create a file called `roq.html` with the following content : 
+
+[source,yaml]
+----
+---
+title: Toto
+questions:
+  - question: |
+      Is `ROQ` a ***GREAT*** static site generator <1>
+    answer: |
+      - A) Yes of course
+      - B) The best !
+      - C) I heard it was created by Chuck Norris <2>
+
+  - question: |
+      Are theme a great add to ROQ
+    answer: |
+      Yes they are. They can provide templates, scripts and styles for your site
+
+---
+----
+<1> Yes, it's MarkDown
+<2> Yes, also MarkDown
+
+== Overriding the colors.
+
+Here are the followwing variables you can override by simple adding an `app.css` file to your `web` folder : 
+
+[source,css]
+----
+@layer base {
+    :root {
+        color-scheme: light dark;
+
+        --primary: light-dark(#1e3a8a, #3b82f6);
+        --primary-50: light-dark(#dbeafe, #1e293b);
+        --primary-100: light-dark(#bfdbfe, #1e3a8a);
+        --primary-600: light-dark(#1e3a8a, #60a5fa);
+        --primary-700: light-dark(#1e40af, #93c5fd);
+        --primary-800: light-dark(#1e3a8a, #bfdbfe);
+        --primary-900: light-dark(#172554, #dbeafe);
+
+        --gray-50: light-dark(#ffffff, #0f172a);
+        --gray-100: light-dark(#f8fafc, #1e293b);
+        --gray-200: light-dark(#e2e8f0, #334155);
+        --gray-300: light-dark(#94a3b8, #64748b);
+
+        --success: light-dark(#15803d, #22c55e);
+        --success-600: light-dark(#15803d, #4ade80);
+        --success-700: light-dark(#166534, #86efac);
+        --error: light-dark(#b91c1c, #ef4444);
+        --error-600: light-dark(#b91c1c, #f87171);
+        --error-700: light-dark(#991b1b, #fca5a5);
+
+        --bg: light-dark(#ffffff, #020617);
+        --surface: light-dark(#ffffff, #0f172a);
+        --surface-elevated: light-dark(#f8fafc, #1e293b);
+        --border: light-dark(#94a3b8, #64748b);
+        --border-light: light-dark(#cbd5e1, #334155);
+        --border-focus: var(--primary);
+
+        --text-primary: light-dark(#000000, #f8fafc);
+        --text-secondary: light-dark(#1e293b, #cbd5e1);
+        --text-muted: light-dark(#334155, #94a3b8);
+
+        --radius: 12px;
+        --radius-lg: 16px;
+        --radius-xl: 20px;
+
+        --shadow-sm: 0 2px 6px 0 rgb(0 0 0 / 0.2);
+        --shadow: 0 4px 12px 0 rgb(0 0 0 / 0.25), 0 2px 6px -2px rgb(0 0 0 / 0.2);
+        --shadow-md: 0 8px 20px -2px rgb(0 0 0 / 0.3), 0 4px 12px -4px rgb(0 0 0 / 0.25);
+        --shadow-lg: 0 16px 40px -8px rgb(0 0 0 / 0.35), 0 8px 20px -8px rgb(0 0 0 / 0.3);
+
+        --spacing-xs: 0.5rem;
+        --spacing-sm: 0.75rem;
+        --spacing: 1.25rem;
+        --spacing-lg: 2rem;
+        --spacing-xl: 2.5rem;
+        --spacing-2xl: 3.5rem;
+        --spacing-3xl: 5rem;
+    }
+}
+----

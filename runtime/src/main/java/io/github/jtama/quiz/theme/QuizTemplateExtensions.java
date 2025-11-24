@@ -1,12 +1,11 @@
-package com.github.jtama.quiz.theme;
+package io.github.jtama.quiz.theme;
+
+import java.util.stream.Collectors;
 
 import io.quarkiverse.roq.frontmatter.runtime.model.DocumentPage;
 import io.quarkiverse.roq.frontmatter.runtime.model.Page;
 import io.quarkiverse.roq.frontmatter.runtime.model.RoqCollection;
 import io.quarkus.qute.TemplateExtension;
-
-import java.util.stream.Collectors;
-
 
 public class QuizTemplateExtensions {
 
@@ -14,7 +13,7 @@ public class QuizTemplateExtensions {
     public static String collectionTitles(RoqCollection collection) {
         return "['%s']".formatted(collection.stream()
                 .map(DocumentPage::title)
-                        .map(value -> value.replaceAll("'", "\\\\'"))
+                .map(value -> value.replaceAll("'", "\\\\'"))
                 .collect(Collectors.joining("','")));
     }
 

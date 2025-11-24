@@ -65,6 +65,8 @@ signing:
 
 deploy:
   maven:
+    pomchecker:
+      failOnWarning: false
     mavenCentral:
       release-deploy:
         active: RELEASE

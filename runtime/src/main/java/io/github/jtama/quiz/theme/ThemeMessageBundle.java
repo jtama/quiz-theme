@@ -1,4 +1,4 @@
-package com.github.jtama.quiz.theme;
+package io.github.jtama.quiz.theme;
 
 import io.quarkus.qute.i18n.Message;
 import io.quarkus.qute.i18n.MessageBundle;

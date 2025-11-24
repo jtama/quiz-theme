@@ -9,7 +9,7 @@ jobs:
     if: github.repository == 'jtama/quiz-theme' && startsWith(github.event.head_commit.message, '🏁 Releasing version') != true && startsWith(github.event.head_commit.message, '⬆️  Next version') != true
     runs-on: ubuntu-latest
     outputs:
-      PAYLOAD_VERSION: ${{ steps.version.outputs.PROJECT_VERSION }}
+      PROJECT_VERSION: ${{ steps.version.outputs.PROJECT_VERSION }}
     steps:
       - uses: actions/checkout@v6
       - name: Set up JDK 21

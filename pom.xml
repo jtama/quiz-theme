@@ -2,22 +2,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github.jtama.quiz</groupId>
-    <artifactId>quiz-theme</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <groupId>io.github.jtama.quiz</groupId>
+    <artifactId>quiz-theme-parent</artifactId>
+    <version>999-SNAPSHOT</version>
+    <name>Quarkus Roq - Theme - Quiz</name>
+    <description>ROQ Quiz theme => Easily generate static generated quiz sites with ROQ</description>
+    <url>https://github.com/jtama/quiz-theme</url>
+    <packaging>pom</packaging>
 
     <properties>
         <compiler-plugin.version>3.14.1</compiler-plugin.version>
         <maven.compiler.release>21</maven.compiler.release>
+        <maven.compiler.source>${maven.compiler.release}</maven.compiler.source>
+        <maven.compiler.target>${maven.compiler.release}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-        <quarkus.platform.version>3.29.2</quarkus.platform.version>
-        <quarkus.roq.version>2.0.0.CR3</quarkus.roq.version>
+        <quarkus.platform.version>3.29.4</quarkus.platform.version>
+        <quarkus.roq.version>2.0.0.BETA3</quarkus.roq.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.5.4</surefire-plugin.version>
-        <quarkus-web-bundler.version>2.0.0.CR6</quarkus-web-bundler.version>
+        <quarkus-web-bundler.version>2.0.0.CR8</quarkus-web-bundler.version>
+        <!-- Code format -->
+        <version.formatter.plugin>2.29.0</version.formatter.plugin>
+        <version.impsort.plugin>1.12.0</version.impsort.plugin>
+        <version.quarkus.ide-config>3.30.0</version.quarkus.ide-config>
+        <format.skip>false</format.skip>
     </properties>
 
     <dependencyManagement>
@@ -32,48 +43,208 @@
         </dependencies>
     </dependencyManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.quarkiverse.roq</groupId>
-            <artifactId>quarkus-roq-frontmatter</artifactId>
-            <version>${quarkus.roq.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkiverse.roq</groupId>
-            <artifactId>quarkus-roq-plugin-markdown</artifactId>
-            <version>${quarkus.roq.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkiverse.web-bundler</groupId>
-            <artifactId>quarkus-web-bundler-tailwind-css</artifactId>
-            <version>${quarkus-web-bundler.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mvnpm</groupId>
-            <artifactId>highlight.js</artifactId>
-            <version>11.10.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mvnpm.at.fortawesome</groupId>
-            <artifactId>fontawesome-free</artifactId>
-            <version>7.0.1</version>
-        </dependency>
-    </dependencies>
+    <developers>
+        <developer>
+            <id>jtama</id>
+            <name>Jérôme TAMA</name>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@github.com:jtama/quiz-theme.git</connection>
+        <developerConnection>scm:git:git@github.com:jtama/quiz-theme.git</developerConnection>
+        <url>${project.url</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>ossrh</id>
+            <name>Central Repository OSSRH</name>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <licenses>
+        <license>
+            <name>CC BY-NC 4.0, Creative Commons, Attribution-NonCommercial 4.0</name>
+            <url>https://creativecommons.org/licenses/by-nc/4.0/legalcode.en</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <modules>
+        <module>deployment</module>
+        <module>runtime</module>
+    </modules>
+
     <build>
         <plugins>
             <plugin>
-                <groupId>io.smallrye</groupId>
-                <artifactId>jandex-maven-plugin</artifactId>
-
-                <executions>
-                    <execution>
-                        <id>make-index</id>
-                        <goals>
-                            <goal>jandex</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.1</version>
+                <configuration>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <version>${version.formatter.plugin}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.quarkus</groupId>
+                        <artifactId>quarkus-ide-config</artifactId>
+                        <version>${version.quarkus.ide-config}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <configFile>eclipse-format.xml</configFile>
+                    <lineEnding>LF</lineEnding>
+                    <skip>${format.skip}</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.revelc.code</groupId>
+                <artifactId>impsort-maven-plugin</artifactId>
+                <version>${version.impsort.plugin}</version>
+                <configuration>
+                    <groups>java.,javax.,jakarta.,org.,com.</groups>
+                    <staticGroups>*</staticGroups>
+                    <skip>${format.skip}</skip>
+                    <removeUnused>true</removeUnused>
+                </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>format</id>
+            <activation>
+                <!-- This profile is effectively activated by default -->
+                <property>
+                    <name>!no-format</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>net.revelc.code.formatter</groupId>
+                        <artifactId>formatter-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>format-sources</id>
+                                <phase>process-sources</phase>
+                                <goals>
+                                    <goal>format</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>net.revelc.code</groupId>
+                        <artifactId>impsort-maven-plugin</artifactId>
+                        <configuration>
+                            <removeUnused>true</removeUnused>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>sort-imports</id>
+                                <phase>process-sources</phase>
+                                <goals>
+                                    <goal>sort</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>validate</id>
+            <activation>
+                <property>
+                    <name>no-format</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>net.revelc.code.formatter</groupId>
+                        <artifactId>formatter-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>process-sources</phase>
+                                <goals>
+                                    <goal>validate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>net.revelc.code</groupId>
+                        <artifactId>impsort-maven-plugin</artifactId>
+                        <configuration>
+                            <removeUnused>true</removeUnused>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>check-imports</id>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>release</id>
+            <properties>
+                <altDeploymentRepository>local::file:./target/staging-deploy</altDeploymentRepository>
+            </properties>
+            <build>
+                <defaultGoal>deploy</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.12.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <attach>true</attach>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <attach>true</attach>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
