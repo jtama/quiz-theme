@@ -1,0 +1,12 @@
+---
+name: TTMC
+simple-name: TTMC
+layout: quiz/default
+---
+
+<main>
+    <label for="player-name">{quiz_theme:player_name}</label>
+    <input type="text" id="player-name" name="player-name" placeholder="{quiz_theme:player_name_holder}"/>
+    <br/>
+    <a href="{site.collections.get('modules').first.url.relative}" id="start-quiz-btn" class="button">{quiz_theme:start_quiz}</a>
+</main>

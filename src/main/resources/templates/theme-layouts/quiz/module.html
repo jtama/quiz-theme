@@ -1,0 +1,25 @@
+---
+layout: quiz/default
+---
+
+<div class="main-layout">
+    {#include partials/quiz/menu.html /}
+    <main>
+
+        <div class="levels-grid">
+            {#for item in page.data.questions}
+            <button class="level-btn" data-index="{item_index}" title="Révèle la question {item_index}" style="grid-column: {item_count.mod(5)};">
+                {quiz_theme:level} {item_count}
+            </button>
+            {/for}
+        </div>
+        <div id="question-container" style="display:none;"></div>
+
+        {#for item in page.data.questions}
+            {#question
+                itemIndex=item_index
+                question=item.question
+                answer=item.answer/}
+        {/for}
+    </main>
+</div>
