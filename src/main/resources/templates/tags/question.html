@@ -1,0 +1,12 @@
+{@java.lang.Integer itemIndex}
+{@java.lang.String question}
+{@java.lang.String answer}
+<div id="question-{itemIndex}" class="question-card" style="display:none;">
+    <div class="question-text"><p>{#markdown}{question.raw}{/markdown}</p></div>
+    <div class="answer-text" style="display:none;">{#markdown}{answer.raw}{/markdown}</div>
+    <div class="button-group">
+        <button class="show-answer-btn">{quiz_theme:show_answer}</button>
+        <button class="ok-btn" data-points="{itemIndex}" disabled>OK</button>
+        <button class="error-btn" disabled>Error</button>
+    </div>
+</div>

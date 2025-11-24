@@ -1,0 +1,69 @@
+---
+title: 🏆Leaderboard
+layout: quiz/default
+---
+<div class="container">
+    <main>
+
+        <!-- Section Quiz en cours -->
+        <div id="quiz-in-progress">
+            <h2 id="current-quiz-title">🎯 {quiz_theme:current_quiz}</h2>
+            <div id="current-quiz-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <p><strong>{quiz_theme:player_name}</strong> <span class="player-name-display"></span></p>
+                    <p><strong>{quiz_theme:current_score}</strong> <span class="current-score-display"></span> points</p>
+                    <p><strong>{quiz_theme:completed_modules}</strong> <span class="modules-progress"></span></p>
+                </div>
+                <div>
+                    <p><strong>{quiz_theme:remaining_modules}</strong><span id="remaining-modules-list"></span></p>
+                </div>
+                <div style="margin-top: 15px;">
+                    <button class="force-finish-btn"
+                            style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-right: 10px"
+                            onclick="leaderboard.forceFinishQuiz({site.collections.modules.collectionTitles.raw})">
+                        {quiz_theme:finish_quiz}
+                    </button>
+                    <button class="continue-quiz-btn"
+                            style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;"
+                            onclick="leaderboard.continueQuiz()">
+                        {quiz_theme:continue_quiz}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Leaderboard -->
+        <div class="leaderboard-section" id="leaderboard"
+             data-modules="{site.collections.modules.collectionTitles.raw}">
+            <h2>🥇 {quiz_theme:ranking}</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">{quiz_theme:gamer}</th>
+                    <th scope="col">Score</th>
+                </tr>
+                </thead>
+                <tbody id="leaderboard-list">
+                <!-- Les scores seront ajoutés ici par JavaScript -->
+                </tbody>
+            </table>
+
+            <template id="leaderboard-row-template">
+                <tr>
+                    <th scope="row"></th>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </template>
+        </div>
+
+        <div class="navigation">
+            <button id="clear-storage-btn" class="button primary">☠️ {quiz_theme:reset} ☠️</button>
+        </div>
+    </main>
+</div>
+
+<script type="module">
+    addEventListener("load", () => leaderboard.initLeaderboardPage({site.collections.modules.size()}));
+</script>

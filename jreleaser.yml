@@ -1,0 +1,83 @@
+# Generated with JReleaser 1.21.0 at 2025-11-13T16:02:12.75885+01:00
+
+hooks:
+  condition: '"{{ Env.CI }}" == true'
+  script:
+    before:
+      - filter:
+          includes: ['session']
+        run: |
+          echo "### {{command}}" >> $GITHUB_STEP_SUMMARY
+          echo "| Step | Outcome |" >> $GITHUB_STEP_SUMMARY
+          echo "| ---- | ------- |" >> $GITHUB_STEP_SUMMARY
+    success:
+      - filter:
+          excludes: ['session']
+        run: 'echo "| {{event.name}} | :white_check_mark: |" >> $GITHUB_STEP_SUMMARY'
+      - filter:
+          includes: ['session']
+        run: echo "" >> $GITHUB_STEP_SUMMARY
+    failure:
+      - filter:
+          excludes: ['session']
+        run: 'echo "| {{event.name}} | :x: |" >> $GITHUB_STEP_SUMMARY'
+      - filter:
+          includes: ['session']
+        run: |
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Failure" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "{{event.stacktrace}}\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+project:
+  name: quiz-theme
+  description: ROQ - Quiz theme
+  longDescription: Easily generate static generated quiz sites with ROQ
+  authors:
+    - Jérôme Tama
+  license: CC BY-NC 4.0
+  links:
+    homepage: https://github.com/jtama/quiz-theme
+  languages:
+    java:
+      groupId: io.github.jtama
+      version: "21"
+  inceptionYear: "2025"
+
+release:
+  github:
+    changelog:
+      formatted: ALWAYS
+      skipMergeCommits: true
+      preset: 'conventional-commits'
+      hide:
+        categories:
+          - merge
+        contributors:
+          - GitHub
+          - GitHub Action
+          - '[bot]'
+
+signing:
+  active: ALWAYS
+  armored: true
+
+deploy:
+  maven:
+    mavenCentral:
+      release-deploy:
+        active: RELEASE
+        url: https://central.sonatype.com/api/v1/publisher
+        stagingRepositories:
+          - target/staging-deploy
+    nexus2:
+      snapshot-deploy:
+        active: SNAPSHOT
+        snapshotUrl: https://central.sonatype.com/repository/maven-snapshots/
+        applyMavenCentralRules: true
+        snapshotSupported: true
+        closeRepository: true
+        releaseRepository: true
+        stagingRepositories:
+          - target/staging-deploy
