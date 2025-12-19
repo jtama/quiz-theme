@@ -20,7 +20,7 @@
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
         <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
         <quarkus.platform.version>3.29.4</quarkus.platform.version>
-        <quarkus.roq.version>2.0.0.BETA3</quarkus.roq.version>
+        <quarkus.roq.version>2.0.3</quarkus.roq.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.5.4</surefire-plugin.version>
         <quarkus-web-bundler.version>2.0.0.CR8</quarkus-web-bundler.version>
