@@ -20,7 +20,7 @@ layout: quiz/default
                 <div style="margin-top: 15px;">
                     <button class="force-finish-btn"
                             style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-right: 10px"
-                            onclick="leaderboard.forceFinishQuiz({site.collections.modules.collectionTitles.raw})">
+                            onclick="leaderboard.forceFinishQuiz({page.collectionTitles.raw})">
                         {quiz_theme:finish_quiz}
                     </button>
                     <button class="continue-quiz-btn"
@@ -34,7 +34,7 @@ layout: quiz/default
 
         <!-- Section Leaderboard -->
         <div class="leaderboard-section" id="leaderboard"
-             data-modules="{site.collections.modules.collectionTitles.raw}">
+             data-modules="{page.collectionTitles.raw}">
             <h2>🥇 {quiz_theme:ranking}</h2>
             <table class="table table-striped">
                 <thead>
@@ -65,5 +65,5 @@ layout: quiz/default
 </div>
 
 <script type="module">
-    addEventListener("load", () => leaderboard.initLeaderboardPage({site.collections.modules.size()}));
+    addEventListener("load", () => leaderboard.initLeaderboardPage({page.allModulesSize}));
 </script>

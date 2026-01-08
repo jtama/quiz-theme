@@ -1,4 +1,5 @@
 import hljs from 'highlight.js';
+import 'highlight.js/scss/default.scss';
 import './quiz.css';
 import './dialog';
 import './final-score';

@@ -1,39 +1,47 @@
 package io.github.jtama.quiz.theme;
 
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import io.quarkiverse.roq.frontmatter.runtime.model.DocumentPage;
+import jakarta.annotation.Nonnull;
+
 import io.quarkiverse.roq.frontmatter.runtime.model.Page;
-import io.quarkiverse.roq.frontmatter.runtime.model.RoqCollection;
 import io.quarkus.qute.TemplateExtension;
 
 public class QuizTemplateExtensions {
 
     @TemplateExtension
-    public static String collectionTitles(RoqCollection collection) {
-        return "['%s']".formatted(collection.stream()
-                .map(DocumentPage::title)
+    public static String collectionTitles(Page page) {
+        return "['%s']".formatted(getModules(page)
+                .map(Page::title)
                 .map(value -> value.replaceAll("'", "\\\\'"))
                 .collect(Collectors.joining("','")));
     }
 
     @TemplateExtension
-    public static String allModules(RoqCollection collection) {
-        return collection.stream()
-                .map(document -> document.url().relative())
-                .collect(Collectors.joining(","));
+    public static List<Page> allModules(Page page) {
+        return getModules(page).toList();
+    }
+
+    @TemplateExtension
+    public static long allModulesSize(Page page) {
+        return getModules(page).count();
     }
 
     @TemplateExtension
     public static String nextModule(Page page) {
-        RoqCollection modules = page.site().collections().get("modules");
+        List<Page> modules = getModules(page).toList();
         if (page.url().equals(page.site().url()))
             return modules.getFirst().url().relative();
-        return modules.stream()
-                .filter(item -> item.id().equals(page.id()))
-                .findFirst()
-                .map(DocumentPage::next)
-                .map(doc -> doc.url().relative())
-                .orElse(page.site().url().fromRoot("leaderboard").absolute());
+        int index = modules.indexOf(page);
+        return index > 0 && index + 1 <= modules.size() + 1 ? modules.get(index + 1).url().relative()
+                : page.site().url().fromRoot("leaderboard").absolute();
+    }
+
+    @Nonnull
+    private static Stream<Page> getModules(Page page) {
+        return page.site().allPages().stream()
+                .filter(item -> item.data().containsKey("tags") && item.data().getString("tags").contains("module"));
     }
 }
