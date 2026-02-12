@@ -23,7 +23,7 @@
         <quarkus.roq.version>2.0.4</quarkus.roq.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.5.4</surefire-plugin.version>
-        <quarkus-web-bundler.version>2.0.0.CR8</quarkus-web-bundler.version>
+        <quarkus-web-bundler.version>2.2.1</quarkus-web-bundler.version>
         <!-- Code format -->
         <version.formatter.plugin>2.29.0</version.formatter.plugin>
         <version.impsort.plugin>1.13.0</version.impsort.plugin>
